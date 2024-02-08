@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine
+FROM golang:1.18-alpine
 
 ENV GO111MODULE=auto
 
@@ -11,4 +11,5 @@ RUN apk add curl git build-base bash
 RUN curl -Lo /wait https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait && \
   chmod +x /wait
 
-RUN go get github.com/oxequa/realize
+RUN go install github.com/oxequa/realize@master
+

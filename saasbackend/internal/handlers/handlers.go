@@ -16,13 +16,13 @@ func CreateProduct(productService domain.ProductServiceInterface) func(w http.Re
 	return func(w http.ResponseWriter, r *http.Request) error {
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			return fmt.Errorf("readAll: %w", err)
+			return BadDataError{Msg: fmt.Errorf("readAll: %w", err).Error()}
 		}
 
 		var product models.Product
 		err = json.Unmarshal(body, &product)
 		if err != nil {
-			return fmt.Errorf("unmarshal: %w", err)
+			return BadDataError{Msg: fmt.Errorf("unmarshal: %w", err).Error()}
 		}
 
 		savedProduct, err := productService.Save(product)
@@ -40,9 +40,8 @@ func GetProductById(productService domain.ProductServiceInterface) func(w http.R
 
 		product, err := productService.GetProductById(productId)
 		if err != nil {
-			return fmt.Errorf("get product by id: %w", err)
+			return NotFoundError{Msg: fmt.Errorf("get product by id: %w", err).Error()}
 		}
-
 		return RespondOK(w, product)
 	}
 }
@@ -54,7 +53,7 @@ func GetAllProducts(productService domain.ProductServiceInterface) func(w http.R
 			return fmt.Errorf("get all products: %w", err)
 		}
 
-		productsResponse := models.ProductsResponse{
+		productsResponse := models.ExternalProductResponse{
 			Products: products,
 			Count:    int64(len(products)),
 		}
@@ -65,6 +64,21 @@ func GetAllProducts(productService domain.ProductServiceInterface) func(w http.R
 
 func CalculatePrice(productService domain.ProductServiceInterface) func(w http.ResponseWriter, r *http.Request) error {
 	return func(w http.ResponseWriter, r *http.Request) error {
-		return nil
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			return BadDataError{Msg: fmt.Errorf("readAll: %w", err).Error()}
+		}
+
+		var cartItems []*models.CartItem
+		err = json.Unmarshal(body, &cartItems)
+		if err != nil {
+			return BadDataError{Msg: fmt.Errorf("unmarshal: %w", err).Error()}
+		}
+
+		res, err2 := productService.CalculatePrice(cartItems)
+		if err2 != nil {
+			return fmt.Errorf("compute cost: %w", err2)
+		}
+		return RespondOK(w, res)
 	}
 }

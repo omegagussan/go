@@ -12,9 +12,10 @@ type ProductHandler interface {
 }
 
 type ProductServiceInterface interface {
-	CalculatePrice() (*int64, error)
-	GetAllProducts() ([]*models.Product, error)
-	GetProductById(string) (*models.Product, error)
+	CalculatePrice([]*models.CartItem) (models.CartCostResponse, error)
+	GetAllProducts() ([]*models.ExternalProduct, error)
+	GetProductById(string) (*models.ExternalProduct, error)
+	GetProductByIdInternal(string) (*models.Product, error)
 	Save(models.Product) (*models.Product, error)
 }
 
@@ -28,20 +29,70 @@ func NewProductService(p1 ProductHandler) ProductServiceInterface {
 	}
 }
 
-func (ps ProductService) CalculatePrice() (*int64, error) {
-	cost := int64(0)
-	return &cost, nil
+func (ps ProductService) CalculatePrice(cartItems []*models.CartItem) (models.CartCostResponse, error) {
+	// Calculate the cost of the products
+	var cost int64 = 0
+	var count int64 = 0
+	for _, item := range cartItems {
+		p, err := ps.GetProductByIdInternal(item.ProductId)
+		if err != nil {
+			continue
+		}
+		var effectiveCost int64 = 0
+		if p.CouponCode == item.CouponCode {
+			effectiveCost = p.ProductDiscountPrice
+		} else {
+			effectiveCost = p.ProductPrice
+		}
+		cost += (effectiveCost * item.Quantity)
+		count++
+	}
+	r := models.CartCostResponse{
+		Count: count,
+		TotalCost: cost,
+	}
+	return r, nil
 }
 
-func (ps ProductService) GetAllProducts() ([]*models.Product, error) {
+func Map[T, V any](ts []T, fn func(T) V) []V {
+    result := make([]V, len(ts))
+    for i, t := range ts {
+        result[i] = fn(t)
+    }
+    return result
+}
+
+func (ps ProductService) GetAllProducts() ([]*models.ExternalProduct, error) {
 	myProducts, err := ps.productHandler.Read()
 	if err != nil {
 		return nil, fmt.Errorf("read: %w", err)
 	}
-	return myProducts, nil
+	externalProducts := Map(myProducts, func(p *models.Product) *models.ExternalProduct { 
+		return &models.ExternalProduct{
+			ProductId:            p.ProductId,
+			ProductName:          p.ProductName,
+			ProductPrice:         p.ProductPrice,
+			ProductType:          p.ProductType,
+		} 
+	})
+	return externalProducts, nil
 }
 
-func (ps ProductService) GetProductById(productId string) (*models.Product, error) {
+func (ps ProductService) GetProductById(productId string) (*models.ExternalProduct, error) {
+	myProduct, err := ps.productHandler.ReadOne(productId)
+	if err != nil {
+		return nil, fmt.Errorf("read one: %w", err)
+	}
+	externalProduct := models.ExternalProduct{
+		ProductId:            myProduct.ProductId,
+		ProductName:          myProduct.ProductName,
+		ProductPrice:         myProduct.ProductPrice,
+		ProductType:          myProduct.ProductType,
+	}
+	return &externalProduct, nil
+}
+
+func (ps ProductService) GetProductByIdInternal(productId string) (*models.Product, error) {
 	myProduct, err := ps.productHandler.ReadOne(productId)
 	if err != nil {
 		return nil, fmt.Errorf("read one: %w", err)
@@ -55,6 +106,7 @@ func (ps ProductService) Save(product models.Product) (*models.Product, error) {
 		ProductPrice:         product.ProductPrice,
 		ProductDiscountPrice: product.ProductDiscountPrice,
 		CouponCode:           product.CouponCode,
+		ProductType:          product.ProductType,
 	}
 	savedProduct, err := ps.productHandler.Create(myProduct)
 	if err != nil {

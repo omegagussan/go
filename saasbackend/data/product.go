@@ -20,16 +20,16 @@ func (h *ProductHandle) Create(obj models.Product) (*models.Product, error) {
 func (h *ProductHandle) ReadOne(q string) (*models.Product, error) {
 	switch q {
 	case "1":
-		item := models.Product{ProductId: "1", ProductName: "banana", ProductPrice: 500, ProductDiscountPrice: 250, CouponCode: "food50"}
+		item := models.Product{ProductId: "1", ProductName: "banana", ProductPrice: 500, ProductDiscountPrice: 250, CouponCode: "food50", ProductType: "food"}
 		return &item, nil
 	case "2":
-		item := models.Product{ProductId: "2", ProductName: "burrito", ProductPrice: 700, ProductDiscountPrice: 350, CouponCode: "food50"}
+		item := models.Product{ProductId: "2", ProductName: "burrito", ProductPrice: 700, ProductDiscountPrice: 350, CouponCode: "food50", ProductType: "food"}
 		return &item, nil
 	case "3":
-		item := models.Product{ProductId: "3", ProductName: "basketball", ProductPrice: 1200, ProductDiscountPrice: 840, CouponCode: "sport30"}
+		item := models.Product{ProductId: "3", ProductName: "basketball", ProductPrice: 1200, ProductDiscountPrice: 840, CouponCode: "sport30", ProductType: "sporting_good"}
 		return &item, nil
 	case "4":
-		item := models.Product{ProductId: "4", ProductName: "baseball", ProductPrice: 900, ProductDiscountPrice: 630, CouponCode: "sport30"}
+		item := models.Product{ProductId: "4", ProductName: "baseball", ProductPrice: 900, ProductDiscountPrice: 630, CouponCode: "sport30", ProductType: "sporting_good"}
 		return &item, nil
 	default:
 		return nil, errors.New("no such product found")

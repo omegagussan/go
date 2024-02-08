@@ -13,7 +13,14 @@ func (fn BaseHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		return
 	}
-	w.WriteHeader(http.StatusInternalServerError)
+	switch err.(type) {
+		case NotFoundError:
+			w.WriteHeader(http.StatusNoContent)
+		case BadDataError:
+			w.WriteHeader(http.StatusBadRequest)
+		default:
+			w.WriteHeader(http.StatusInternalServerError)
+	}
 	json.NewEncoder(w).Encode(&err)
 }
 
