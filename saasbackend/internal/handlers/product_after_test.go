@@ -145,10 +145,10 @@ func TestCalculatePrice1(t *testing.T) {
 	// Create the object we will submit in the request body
 	myPB := map[string]interface{}{}
 	item1 := MSI{}
-	item1["product_id"] = 1
+	item1["product_id"] = "1"
 	item1["quantity"] = 2
 	item2 := MSI{}
-	item2["product_id"] = 2
+	item2["product_id"] = "2"
 	item2["quantity"] = 2
 	var shipmentItems1 []MSI
 	shipmentItems1 = append(shipmentItems1, item1, item2)
@@ -183,17 +183,17 @@ func TestCalculatePrice2(t *testing.T) {
 	// Create the object we will submit in the request body
 	myPB := map[string]interface{}{}
 	item1 := MSI{}
-	item1["product_id"] = 1
+	item1["product_id"] = "1"
 	item1["quantity"] = 1
 	item2 := MSI{}
-	item2["product_id"] = 2
+	item2["product_id"] = "2"
 	item2["quantity"] = 1
 	item3 := MSI{}
-	item3["product_id"] = 3
+	item3["product_id"] = "3"
 	item3["quantity"] = 1
 	item3["coupon_code"] = "sport30"
 	item4 := MSI{}
-	item4["product_id"] = 4
+	item4["product_id"] = "4"
 	item4["quantity"] = 1
 	item4["coupon_code"] = "sport30"
 	var shipmentItems1 []MSI
@@ -229,16 +229,16 @@ func TestCalculatePrice3(t *testing.T) {
 	// Create the object we will submit in the request body
 	myPB := map[string]interface{}{}
 	item1 := MSI{}
-	item1["product_id"] = 1
+	item1["product_id"] = "1"
 	item1["quantity"] = 0
 	item2 := MSI{}
-	item2["product_id"] = 2
+	item2["product_id"] = "2"
 	item2["quantity"] = 0
 	item3 := MSI{}
-	item3["product_id"] = 3
+	item3["product_id"] = "3"
 	item3["quantity"] = 0
 	item4 := MSI{}
-	item4["product_id"] = 4
+	item4["product_id"] = "4"
 	item4["quantity"] = 0
 	var shipmentItems1 []MSI
 	shipmentItems1 = append(shipmentItems1, item1, item2, item3, item4)
@@ -273,17 +273,17 @@ func TestCalculatePrice4(t *testing.T) {
 	// Create the object we will submit in the request body
 	myPB := map[string]interface{}{}
 	item1 := MSI{}
-	item1["product_id"] = 1
+	item1["product_id"] = "1"
 	item1["quantity"] = 100
 	item2 := MSI{}
-	item2["product_id"] = 2
+	item2["product_id"] = "2"
 	item2["quantity"] = 100
 	item2["coupon_code"] = "food50"
 	item3 := MSI{}
-	item3["product_id"] = 3
+	item3["product_id"] = "3"
 	item3["quantity"] = 0
 	item4 := MSI{}
-	item4["product_id"] = 4
+	item4["product_id"] = "4"
 	item4["quantity"] = 0
 	var shipmentItems1 []MSI
 	shipmentItems1 = append(shipmentItems1, item1, item2, item3, item4)
@@ -318,10 +318,10 @@ func TestCalculatePrice5(t *testing.T) {
 	// Create the object we will submit in the request body
 	myPB := map[string]interface{}{}
 	item1 := MSI{}
-	item1["product_id"] = 1
+	item1["product_id"] = "1"
 	item1["quantity"] = 50
 	item2 := MSI{}
-	item2["product_id"] = 21
+	item2["product_id"] = "21"
 	item2["quantity"] = 50
 	var shipmentItems1 []MSI
 	shipmentItems1 = append(shipmentItems1, item1, item2)

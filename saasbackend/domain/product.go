@@ -39,16 +39,20 @@ func (ps ProductService) CalculatePrice(cartItems []*models.CartItem) (models.Ca
 			continue
 		}
 		var effectiveCost int64 = 0
-		if p.CouponCode == item.CouponCode {
+		if item.CouponCode != nil && p.CouponCode == *item.CouponCode {
 			effectiveCost = p.ProductDiscountPrice
 		} else {
 			effectiveCost = p.ProductPrice
 		}
-		cost += (effectiveCost * item.Quantity)
-		count++
+		fmt.Printf("cost: %d\n", cost)
+		fmt.Printf("EffectiveCost: %d\n", effectiveCost)
+		fmt.Printf("Quantity: %d\n", item.Quantity)
+
+		cost = cost + (effectiveCost * item.Quantity)
+		count = count + item.Quantity
 	}
 	r := models.CartCostResponse{
-		Count: count,
+		TotalObjects: count,
 		TotalCost: cost,
 	}
 	return r, nil

@@ -69,13 +69,13 @@ func CalculatePrice(productService domain.ProductServiceInterface) func(w http.R
 			return BadDataError{Msg: fmt.Errorf("readAll: %w", err).Error()}
 		}
 
-		var cartItems []*models.CartItem
-		err = json.Unmarshal(body, &cartItems)
+		var cart *models.Cart
+		err = json.Unmarshal(body, &cart)
 		if err != nil {
 			return BadDataError{Msg: fmt.Errorf("unmarshal: %w", err).Error()}
 		}
 
-		res, err2 := productService.CalculatePrice(cartItems)
+		res, err2 := productService.CalculatePrice(cart.CartItems)
 		if err2 != nil {
 			return fmt.Errorf("compute cost: %w", err2)
 		}

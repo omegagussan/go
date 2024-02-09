@@ -11,13 +11,8 @@ type ExternalProductResponse struct {
 }
 
 type CartCostResponse struct {
-	Count    	int64      `json:"total_objects"`
-	TotalCost 	int64 		`json:"total_cost"`
-}
-
-type CartCost struct {
-	Count 		int64 		`json:"count"`
-	TotalCost 	int64 		`json:"total_cost"`
+	TotalObjects    int64		`json:"total_objects"`
+	TotalCost 		int64		`json:"total_cost"`
 }
 
 type Product struct {
@@ -30,9 +25,13 @@ type Product struct {
 }
 
 type CartItem struct {
-	ProductId            string `json:"product_id"`
-	Quantity         	 int64  `json:"qunatity"`
-	CouponCode           string `json:"coupon_code"` //optional
+	ProductId            string 	`json:"product_id"`
+	Quantity         	 int64  	`json:"quantity"`
+	CouponCode           *string 	`json:"coupon_code,omitempty"` //optional
+}
+
+type Cart struct {
+	CartItems []*CartItem `json:"cart"`	
 }
 
 type ExternalProduct struct {

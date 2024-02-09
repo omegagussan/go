@@ -38,13 +38,13 @@ func (h *ProductHandle) ReadOne(q string) (*models.Product, error) {
 
 func (h *ProductHandle) Read() ([]*models.Product, error) {
 	items := make([]*models.Product, 0)
-	item1 := models.Product{ProductId: "1", ProductName: "banana", ProductPrice: 500, ProductDiscountPrice: 250, CouponCode: "food50"}
+	item1 := models.Product{ProductId: "1", ProductName: "banana", ProductPrice: 500, ProductDiscountPrice: 250, CouponCode: "food50", ProductType: "food"}
 	items = append(items, &item1)
-	item2 := models.Product{ProductId: "2", ProductName: "burrito", ProductPrice: 700, ProductDiscountPrice: 350, CouponCode: "food50"}
+	item2 := models.Product{ProductId: "2", ProductName: "burrito", ProductPrice: 700, ProductDiscountPrice: 350, CouponCode: "food50", ProductType: "food"}
 	items = append(items, &item2)
-	item3 := models.Product{ProductId: "3", ProductName: "basketball", ProductPrice: 1200, ProductDiscountPrice: 840, CouponCode: "sport30"}
+	item3 := models.Product{ProductId: "3", ProductName: "basketball", ProductPrice: 1200, ProductDiscountPrice: 840, CouponCode: "sport30", ProductType: "sporting_good"}
 	items = append(items, &item3)
-	item4 := models.Product{ProductId: "4", ProductName: "baseball", ProductPrice: 900, ProductDiscountPrice: 630, CouponCode: "sport30"}
+	item4 := models.Product{ProductId: "4", ProductName: "baseball", ProductPrice: 900, ProductDiscountPrice: 630, CouponCode: "sport30", ProductType: "sporting_good"}
 	items = append(items, &item4)
 	return items, nil
 }
