@@ -5,19 +5,19 @@ import (
 	"saasteamtest/saasbackend/models"
 )
 
-type ProductHandle struct{}
+type StupidStore struct{}
 
-func NewProductHandler() *ProductHandle {
-	productHandle := ProductHandle{}
-	return &productHandle
+func NewStupidStore() *StupidStore {
+	stupidStore := StupidStore{}
+	return &stupidStore
 }
 
-func (h *ProductHandle) Create(obj models.Product) (*models.Product, error) {
+func (h *StupidStore) Create(obj models.Product) (*models.Product, error) {
 	obj.ProductId = "5"
 	return &obj, nil
 }
 
-func (h *ProductHandle) ReadOne(q string) (*models.Product, error) {
+func (h *StupidStore) ReadOne(q string) (*models.Product, error) {
 	switch q {
 	case "1":
 		item := models.Product{ProductId: "1", ProductName: "banana", ProductPrice: 500, ProductDiscountPrice: 250, CouponCode: "food50", ProductType: "food"}
@@ -36,7 +36,7 @@ func (h *ProductHandle) ReadOne(q string) (*models.Product, error) {
 	}
 }
 
-func (h *ProductHandle) Read() ([]*models.Product, error) {
+func (h *StupidStore) Read() ([]*models.Product, error) {
 	items := make([]*models.Product, 0)
 	item1 := models.Product{ProductId: "1", ProductName: "banana", ProductPrice: 500, ProductDiscountPrice: 250, CouponCode: "food50", ProductType: "food"}
 	items = append(items, &item1)

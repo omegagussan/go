@@ -44,9 +44,6 @@ func (ps ProductService) CalculatePrice(cartItems []*models.CartItem) (models.Ca
 		} else {
 			effectiveCost = p.ProductPrice
 		}
-		fmt.Printf("cost: %d\n", cost)
-		fmt.Printf("EffectiveCost: %d\n", effectiveCost)
-		fmt.Printf("Quantity: %d\n", item.Quantity)
 
 		cost = cost + (effectiveCost * item.Quantity)
 		count = count + item.Quantity

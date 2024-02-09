@@ -25,7 +25,7 @@ func TestMain(m *testing.M) {
 
 func setUp() {
 	testHelper = TestHelper{}
-	productHandler := data.NewProductHandler()
+	productHandler := data.NewStupidStore()
 	productService = domain.NewProductService(productHandler)
 }
 

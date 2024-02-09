@@ -10,7 +10,7 @@ import (
 )
 
 func RouterInitializer() *chi.Mux {
-	productHandler := data.NewProductHandler()
+	productHandler := data.NewMemoryStore()
 	productService := domain.NewProductService(productHandler)
 
 	r := chi.NewRouter()
